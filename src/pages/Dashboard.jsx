@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { db, storage } from '../firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from 'firebase/storage';
 
 const Dashboard = () => {
   const { currentUser } = useAuth();
@@ -14,6 +14,8 @@ const Dashboard = () => {
   const [showAddTrek, setShowAddTrek] = useState(false);
   const [newTrek, setNewTrek] = useState({ title: '', description: '', posterFile: null });
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState({ progress: 0, uploaded: 0, total: 0 });
+  const [uploadError, setUploadError] = useState('');
 
   useEffect(() => {
     if (!currentUser) {
@@ -45,29 +47,50 @@ const Dashboard = () => {
     if (!newTrek.posterFile) return;
 
     setUploading(true);
+    setUploadProgress({ progress: 0, uploaded: 0, total: 0 });
     try {
       // Compress image before upload
       const compressedFile = await compressImage(newTrek.posterFile);
 
-      // Upload poster to Firebase Storage
+      // Upload poster to Firebase Storage with progress tracking
       const posterRef = ref(storage, `trek-posters/${Date.now()}-${newTrek.posterFile.name}`);
-      await uploadBytes(posterRef, compressedFile);
-      const posterUrl = await getDownloadURL(posterRef);
+      const uploadTask = uploadBytesResumable(posterRef, compressedFile);
 
-      // Add trek to Firestore
-      await addDoc(collection(db, 'treks'), {
-        title: newTrek.title,
-        description: newTrek.description,
-        posterUrl,
-        createdAt: new Date()
-      });
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setUploadProgress({
+            progress: Math.round(progress),
+            uploaded: snapshot.bytesTransferred,
+            total: snapshot.totalBytes
+          });
+        },
+        (error) => {
+          console.error('Upload error:', error);
+          setUploadError(`Upload failed: ${error.message}`);
+          setUploading(false);
+        },
+        async () => {
+          const posterUrl = await getDownloadURL(uploadTask.snapshot.ref);
 
-      setNewTrek({ title: '', description: '', posterFile: null });
-      setShowAddTrek(false);
-      fetchTreks();
+          // Add trek to Firestore
+          await addDoc(collection(db, 'treks'), {
+            title: newTrek.title,
+            description: newTrek.description,
+            posterUrl,
+            createdAt: new Date()
+          });
+
+          setNewTrek({ title: '', description: '', posterFile: null });
+          setShowAddTrek(false);
+          setUploadProgress({ progress: 0, uploaded: 0, total: 0 });
+          setUploadError('');
+          setUploading(false);
+          fetchTreks();
+        }
+      );
     } catch (error) {
       console.error('Error adding trek:', error);
-    } finally {
       setUploading(false);
     }
   };
@@ -202,6 +225,24 @@ const Dashboard = () => {
                   className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-netflix-red file:text-white hover:file:bg-red-700"
                 />
               </div>
+              {uploading && (
+                <div className="mb-4">
+                  <div className="w-full bg-gray-700 rounded-full h-2">
+                    <div
+                      className="bg-netflix-red h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${uploadProgress.progress}%` }}
+                    ></div>
+                  </div>
+                  <p className="text-sm text-gray-300 mt-2">
+                    Uploading... {uploadProgress.progress}% ({(uploadProgress.uploaded / 1024 / 1024).toFixed(2)} MB / {(uploadProgress.total / 1024 / 1024).toFixed(2)} MB)
+                  </p>
+                </div>
+              )}
+              {uploadError && (
+                <div className="mb-4 p-3 bg-red-900 border border-red-700 rounded-lg">
+                  <p className="text-sm text-red-300">{uploadError}</p>
+                </div>
+              )}
               <button
                 type="submit"
                 disabled={uploading}
