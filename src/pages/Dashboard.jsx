@@ -46,9 +46,12 @@ const Dashboard = () => {
 
     setUploading(true);
     try {
+      // Compress image before upload
+      const compressedFile = await compressImage(newTrek.posterFile);
+
       // Upload poster to Firebase Storage
       const posterRef = ref(storage, `trek-posters/${Date.now()}-${newTrek.posterFile.name}`);
-      await uploadBytes(posterRef, newTrek.posterFile);
+      await uploadBytes(posterRef, compressedFile);
       const posterUrl = await getDownloadURL(posterRef);
 
       // Add trek to Firestore
@@ -67,6 +70,41 @@ const Dashboard = () => {
     } finally {
       setUploading(false);
     }
+  };
+
+  const compressImage = (file) => {
+    return new Promise((resolve) => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const img = new Image();
+
+      img.onload = () => {
+        // Calculate new dimensions (max 1200px width/height)
+        let { width, height } = img;
+        const maxSize = 1200;
+
+        if (width > height) {
+          if (width > maxSize) {
+            height = (height * maxSize) / width;
+            width = maxSize;
+          }
+        } else {
+          if (height > maxSize) {
+            width = (width * maxSize) / height;
+            height = maxSize;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        ctx.drawImage(img, 0, 0, width, height);
+
+        canvas.toBlob(resolve, 'image/jpeg', 0.8); // 80% quality
+      };
+
+      img.src = URL.createObjectURL(file);
+    });
   };
 
   const handleDeleteTrek = async (trekId, posterUrl) => {
