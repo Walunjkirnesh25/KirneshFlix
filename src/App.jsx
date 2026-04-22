@@ -12,15 +12,17 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen bg-black text-white">
+        <div className="relative min-h-[100svh] text-frost-50">
           <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/trek/:id" element={<TrekGallery />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <main className="relative z-[2]">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/trek/:id" element={<TrekGallery />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
           <Footer />
         </div>
       </Router>

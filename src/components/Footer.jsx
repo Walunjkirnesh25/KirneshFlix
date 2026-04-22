@@ -1,40 +1,68 @@
-import { motion } from 'framer-motion';
+import Wordmark from './Wordmark';
 
 const Footer = () => {
   return (
-    <motion.footer
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5, delay: 0.5 }}
-      className="bg-netflix-dark border-t border-gray-800 py-8"
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-netflix-red mb-4">KirneshFlix</h2>
-          <p className="text-gray-400 mb-4">
-            Experience the beauty of the mountains through immersive trek galleries.
-          </p>
-          <div className="flex justify-center space-x-6 mb-4">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              About
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              Contact
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              Privacy
-            </a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">
-              Terms
-            </a>
+    <footer className="mt-24 border-t border-white/5 bg-ink-900/60">
+      <div className="mx-auto max-w-7xl px-6 sm:px-8 py-14">
+        <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
+          <div className="max-w-md">
+            <Wordmark size="lg" />
+            <p className="mt-4 text-[15px] leading-relaxed text-frost-300">
+              A personal photography project by Kirnesh. Notes from above the
+              clouds — shared in the belief that the mountains are best remembered
+              slowly.
+            </p>
           </div>
-          <p className="text-gray-500 text-sm">
-            © 2024 KirneshFlix. All rights reserved.
-          </p>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 text-[13px]">
+            <FooterCol title="The Work">
+              <FooterLink href="/">Stories</FooterLink>
+              <FooterLink href="/#collections">Collections</FooterLink>
+              <FooterLink href="/#journal">Journal</FooterLink>
+            </FooterCol>
+            <FooterCol title="About">
+              <FooterLink href="/#about">Credo</FooterLink>
+              <FooterLink href="/#about">Gear</FooterLink>
+              <FooterLink href="/login">Studio</FooterLink>
+            </FooterCol>
+            <FooterCol title="Elsewhere">
+              <FooterLink href="#" external>Instagram</FooterLink>
+              <FooterLink href="#" external>500px</FooterLink>
+              <FooterLink href="mailto:hello@kirneshflix.app">Write</FooterLink>
+            </FooterCol>
+          </div>
+        </div>
+
+        <div className="hairline my-10" />
+
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-[12px] text-frost-400">
+          <p>© {new Date().getFullYear()} Kirneshflix. A photography journal.</p>
+          <p className="tabular">Made with patience, wool, and a wide-angle lens.</p>
         </div>
       </div>
-    </motion.footer>
+    </footer>
   );
 };
+
+const FooterCol = ({ title, children }) => (
+  <div>
+    <div className="text-[11px] uppercase tracking-[0.18em] text-frost-400 mb-3">
+      {title}
+    </div>
+    <ul className="space-y-2">{children}</ul>
+  </div>
+);
+
+const FooterLink = ({ href, children, external = false }) => (
+  <li>
+    <a
+      href={href}
+      {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
+      className="text-frost-200 hover:text-frost-50 transition-colors"
+    >
+      {children}
+    </a>
+  </li>
+);
 
 export default Footer;
