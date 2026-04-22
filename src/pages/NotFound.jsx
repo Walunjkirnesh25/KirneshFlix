@@ -3,23 +3,25 @@ import { motion } from 'framer-motion';
 
 const NotFound = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 pt-20">
+    <div className="flex min-h-[100svh] items-center justify-center px-6 pt-20">
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-center"
+        transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+        className="max-w-lg text-center"
       >
-        <h1 className="text-9xl font-bold text-netflix-red mb-4">404</h1>
-        <h2 className="text-4xl font-bold text-white mb-6">Lost in the Mountains</h2>
-        <p className="text-gray-400 text-xl mb-8 max-w-md mx-auto">
-          The page you're looking for seems to have wandered off the trail.
+        <div className="text-[11px] uppercase tracking-[0.26em] text-frost-300">
+          404 — Off trail
+        </div>
+        <h1 className="display mt-4 text-5xl sm:text-6xl">
+          This path doesn't lead anywhere.
+        </h1>
+        <p className="mt-5 text-[15px] leading-relaxed text-frost-300">
+          Not every wrong turn is a bad one. But this one isn't a trek — it's a
+          broken link. Let's walk back.
         </p>
-        <Link
-          to="/"
-          className="inline-block bg-netflix-red text-white px-8 py-3 rounded-lg hover:bg-red-700 transition-colors font-semibold"
-        >
-          Return Home
+        <Link to="/" className="btn-pill btn-primary mt-10">
+          Return to base camp
         </Link>
       </motion.div>
     </div>

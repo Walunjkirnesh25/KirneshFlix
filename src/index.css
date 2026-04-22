@@ -2,42 +2,142 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom styles for Netflix-like experience */
+:root {
+  color-scheme: dark;
+  --grain-opacity: 0.05;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  background-color: #0a0a0c;
+}
+
 body {
-  font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  background-color: #000;
-  color: #fff;
+  margin: 0;
+  font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Inter, Helvetica, Arial, sans-serif;
+  color: #f5f5f7;
+  background:
+    radial-gradient(1200px 800px at 80% -10%, rgba(95,180,255,0.10), transparent 60%),
+    radial-gradient(900px 600px at -10% 110%, rgba(255,122,77,0.08), transparent 55%),
+    linear-gradient(180deg, #0a0a0c 0%, #0d0f14 60%, #0a0a0c 100%);
+  background-attachment: fixed;
 }
 
-.netflix-red {
-  color: #e50914;
+/* Subtle film grain for a "living" surface */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.9'/></svg>");
 }
 
-.netflix-bg {
-  background: linear-gradient(180deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,1) 100%);
-}
-
-/* Scrollbar styling */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #000;
-}
-
+/* Refined, minimal scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: #e50914;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.16); background-clip: padding-box; }
+
+::selection { background: rgba(95,180,255,0.35); color: #fff; }
+
+.scrollbar-none::-webkit-scrollbar { display: none; }
+.scrollbar-none { scrollbar-width: none; }
+
+.glass {
+  background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: saturate(160%) blur(20px);
+  -webkit-backdrop-filter: saturate(160%) blur(20px);
+}
+.glass-strong {
+  background: rgba(18,20,26,0.72);
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: saturate(180%) blur(30px);
+  -webkit-backdrop-filter: saturate(180%) blur(30px);
+}
+
+.btn-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: 999px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: -0.01em;
+  transition: transform 200ms cubic-bezier(0.22,1,0.36,1),
+              background 200ms ease, color 200ms ease, box-shadow 200ms ease;
+  will-change: transform;
+}
+.btn-pill:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: #f5f5f7;
+  color: #0a0a0c;
+}
+.btn-primary:hover { background: #ffffff; box-shadow: 0 10px 40px rgba(255,255,255,0.12); }
+
+.btn-ghost {
+  background: rgba(255,255,255,0.08);
+  color: #f5f5f7;
+  border: 1px solid rgba(255,255,255,0.14);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.14); }
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+.img-blur-up {
+  filter: blur(18px);
+  transform: scale(1.04);
+  transition: filter 700ms ease, transform 700ms ease;
+}
+.img-blur-up.loaded {
+  filter: blur(0);
+  transform: scale(1);
+}
+
+.snap-row {
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 2rem;
+}
+.snap-row > * { scroll-snap-align: start; }
+
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+}
+
+.display {
+  font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Inter, sans-serif;
+  letter-spacing: -0.035em;
+  font-weight: 600;
+}
+
+*:focus-visible {
+  outline: 2px solid rgba(158,200,255,0.8);
+  outline-offset: 3px;
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #f40612;
-}
-
-/* Glassmorphism effect for login */
-.glassmorphism {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
