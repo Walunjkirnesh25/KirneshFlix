@@ -11,5 +11,8 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
   },
-  base: './',
+  // Absolute base so nested SPA routes (e.g. /trek/:id) resolve assets to
+  // /assets/... when Netlify falls through /index.html for client-side routing.
+  // A relative base breaks every route except '/'.
+  base: '/',
 })

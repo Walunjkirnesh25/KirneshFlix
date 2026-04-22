@@ -32,7 +32,7 @@ const Login = () => {
   };
 
   return (
-    <div className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-5 pt-20">
+    <div className="relative flex min-h-screen min-h-[100svh] items-center justify-center overflow-hidden px-5 pt-20">
       {/* Ambient backdrop — a still frame, blurred */}
       <div className="absolute inset-0">
         <SmartImage

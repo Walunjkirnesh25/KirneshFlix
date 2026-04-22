@@ -133,7 +133,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-[100svh] pt-24">
+    <div className="min-h-screen min-h-[100svh] pt-24">
       <div className="mx-auto max-w-6xl px-6 sm:px-8">
         {/* Header */}
         <motion.div

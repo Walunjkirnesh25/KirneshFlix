@@ -1,0 +1,33 @@
+# Deterministic Netlify config so deploys don't depend on dashboard guesses.
+# With this file in the repo, Netlify ignores its auto-detection and uses the
+# exact build + publish settings below.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA fallback: serve index.html for any unmatched path so react-router
+# handles /trek/:id, /login, /dashboard, etc. on direct load / refresh.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Long-cache for hashed assets; HTML is short-cache so new deploys are picked up.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

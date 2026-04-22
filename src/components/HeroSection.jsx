@@ -23,7 +23,7 @@ const HeroSection = ({ featured }) => {
   return (
     <section
       ref={ref}
-      className="relative h-[100svh] min-h-[640px] w-full overflow-hidden"
+      className="relative h-screen h-[100svh] min-h-[640px] w-full overflow-hidden"
     >
       <motion.div
         style={{ y: imageY, scale: imageScale }}
