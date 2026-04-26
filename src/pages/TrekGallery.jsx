@@ -4,6 +4,8 @@ import { motion, useScroll, useTransform } from 'framer-motion';
 import SmartImage from '../components/SmartImage';
 import MasonryGallery from '../components/MasonryGallery';
 import Lightbox from '../components/Lightbox';
+import KineticTitle from '../components/KineticTitle';
+import CountUp from '../components/CountUp';
 import { useTrek } from '../lib/useTrek';
 import { useTreks } from '../lib/useTreks';
 import TrekCard from '../components/TrekCard';
@@ -76,9 +78,13 @@ const TrekGallery = () => {
           <div className="text-[11px] uppercase tracking-[0.26em] text-frost-200/90">
             {trek.region || 'Himalaya'}
           </div>
-          <h1 className="display mt-3 text-[14vw] leading-[0.95] sm:text-[72px] md:text-[92px] lg:text-[112px]">
-            {trek.title}
-          </h1>
+          <KineticTitle
+            text={trek.title}
+            tag="h1"
+            className="display mt-3 text-[14vw] leading-[0.95] sm:text-[72px] md:text-[92px] lg:text-[112px]"
+            delay={200}
+            charDelay={30}
+          />
           <p className="mt-4 max-w-2xl text-[16px] sm:text-[17px] leading-relaxed text-frost-200/90">
             {trek.tagline || trek.subtitle || trek.description}
           </p>
@@ -165,12 +171,22 @@ const TrekGallery = () => {
   );
 };
 
-const Stat = ({ label, value }) => (
-  <div className="glass rounded-2xl px-5 py-4">
-    <div className="text-[10px] uppercase tracking-[0.22em] text-frost-400">{label}</div>
-    <div className="mt-1 tabular text-[17px] text-frost-50">{value}</div>
-  </div>
-);
+const Stat = ({ label, value }) => {
+  const numeric = parseFloat(String(value || '').replace(/[^0-9.]/g, ''));
+  const suffix  = String(value || '').replace(/[0-9,.]/g, '').trim();
+  const isNum   = isFinite(numeric) && numeric > 0;
+  return (
+    <div className="glass rounded-2xl px-5 py-4">
+      <div className="text-[10px] uppercase tracking-[0.22em] text-frost-400">{label}</div>
+      <div className="mt-1 text-[17px] text-frost-50">
+        {isNum
+          ? <CountUp value={numeric} suffix={suffix ? ` ${suffix}` : ''} />
+          : <span className="tabular">{value || '—'}</span>
+        }
+      </div>
+    </div>
+  );
+};
 
 const Skeleton = () => (
   <div className="flex min-h-[80vh] items-center justify-center">
