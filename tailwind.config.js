@@ -7,38 +7,49 @@ export default {
   theme: {
     extend: {
       colors: {
-        ink: {
-          900: '#0a0a0c',
-          800: '#0e1014',
-          700: '#14161c',
-          600: '#1b1e27',
+        dusk: {
+          950: '#080614',
+          900: '#0f0a24',
+          800: '#180e3c',
+          700: '#22145a',
+          600: '#2e1e78',
         },
-        frost: {
-          50:  '#f5f5f7',
-          100: '#e8e8ed',
-          200: '#c7c7cc',
-          300: '#a1a1a6',
-          400: '#6e6e73',
+        parchment: {
+          50:  '#fffdf5',
+          100: '#f7ead5',
+          200: '#e0c89a',
+          300: '#c4a462',
+          400: '#8a7245',
         },
-        alpine: {
-          100: '#dbeaff',
-          300: '#9ec8ff',
-          500: '#5fb4ff',
-          700: '#2a7bd1',
+        lantern: {
+          100: '#fff4d9',
+          300: '#ffd166',
+          500: '#f4a261',
+          700: '#e76f51',
         },
-        ember: '#ff7a4d',
+        coral: '#ff6b6b',
+        lagoon: {
+          300: '#48cae4',
+          500: '#06d6a0',
+        },
       },
       fontFamily: {
-        display: ['"SF Pro Display"', '-apple-system', 'BlinkMacSystemFont', '"Helvetica Neue"', 'Inter', 'Helvetica', 'Arial', 'sans-serif'],
-        text:    ['"SF Pro Text"', '-apple-system', 'BlinkMacSystemFont', '"Helvetica Neue"', 'Inter', 'Helvetica', 'Arial', 'sans-serif'],
+        display: ['"Nunito"', '"Nunito Sans"', 'system-ui', 'sans-serif'],
+        text:    ['"Nunito Sans"', '"Nunito"', 'system-ui', 'sans-serif'],
       },
       letterSpacing: {
-        tightest: '-0.035em',
+        tightest: '-0.02em',
+      },
+      borderRadius: {
+        '4xl': '2rem',
+        '5xl': '2.5rem',
       },
       boxShadow: {
-        glass: '0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06) inset',
-        lift:  '0 20px 50px -20px rgba(0,0,0,0.7)',
-        glow:  '0 0 40px rgba(95,180,255,0.25)',
+        glass:  '0 30px 80px -20px rgba(8,6,20,0.7), 0 0 0 1px rgba(255,255,255,0.07) inset',
+        lift:   '0 20px 60px -15px rgba(8,6,20,0.8), 0 8px 24px -8px rgba(244,162,97,0.15)',
+        glow:   '0 0 50px rgba(255,209,102,0.35)',
+        lantern:'0 0 80px rgba(255,209,102,0.2), 0 0 30px rgba(244,162,97,0.15)',
+        warm:   '0 25px 60px -12px rgba(231,111,81,0.3)',
       },
       backdropBlur: {
         xs: '2px',
@@ -46,20 +57,30 @@ export default {
       animation: {
         'float-slow': 'float 14s ease-in-out infinite',
         'breathe':    'breathe 9s ease-in-out infinite',
-        'rise':       'rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both',
+        'rise':       'rise 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) both',
+        'bounce-in':  'bounceIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both',
+        'twinkle':    'twinkle 3s ease-in-out infinite',
       },
       keyframes: {
         float: {
           '0%,100%': { transform: 'translate3d(0,0,0) scale(1)' },
-          '50%':     { transform: 'translate3d(0,-12px,0) scale(1.02)' },
+          '50%':     { transform: 'translate3d(0,-14px,0) scale(1.02)' },
         },
         breathe: {
-          '0%,100%': { opacity: '0.55' },
-          '50%':     { opacity: '0.9' },
+          '0%,100%': { opacity: '0.5' },
+          '50%':     { opacity: '1' },
         },
         rise: {
-          '0%':   { opacity: '0', transform: 'translate3d(0,24px,0)' },
-          '100%': { opacity: '1', transform: 'translate3d(0,0,0)' },
+          '0%':   { opacity: '0', transform: 'translate3d(0,30px,0) scale(0.97)' },
+          '100%': { opacity: '1', transform: 'translate3d(0,0,0) scale(1)' },
+        },
+        bounceIn: {
+          '0%':   { opacity: '0', transform: 'scale(0.8)' },
+          '100%': { opacity: '1', transform: 'scale(1)' },
+        },
+        twinkle: {
+          '0%,100%': { opacity: '0.2' },
+          '50%':     { opacity: '0.8' },
         },
       },
     },

@@ -2,15 +2,14 @@ import Wordmark from './Wordmark';
 
 const Footer = () => {
   return (
-    <footer className="mt-24 border-t border-white/5 bg-ink-900/60">
+    <footer className="mt-24 border-t border-lantern-300/10 bg-dusk-950/70">
       <div className="mx-auto max-w-7xl px-6 sm:px-8 py-14">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="max-w-md">
             <Wordmark size="lg" />
-            <p className="mt-4 text-[15px] leading-relaxed text-frost-300">
+            <p className="mt-4 text-[15px] leading-relaxed text-parchment-300 font-medium">
               A personal photography project by Kirnesh. Notes from above the
-              clouds — shared in the belief that the mountains are best remembered
-              slowly.
+              clouds — shared in the belief that the mountains are best remembered slowly.
             </p>
           </div>
 
@@ -35,7 +34,7 @@ const Footer = () => {
 
         <div className="hairline my-10" />
 
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-[12px] text-frost-400">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between text-[12px] text-parchment-400 font-semibold">
           <p>© {new Date().getFullYear()} Kirneshflix. A photography journal.</p>
           <p className="tabular">Made with patience, wool, and a wide-angle lens.</p>
         </div>
@@ -46,9 +45,7 @@ const Footer = () => {
 
 const FooterCol = ({ title, children }) => (
   <div>
-    <div className="text-[11px] uppercase tracking-[0.18em] text-frost-400 mb-3">
-      {title}
-    </div>
+    <div className="text-[11px] uppercase tracking-[0.2em] text-lantern-500/80 mb-3 font-bold">{title}</div>
     <ul className="space-y-2">{children}</ul>
   </div>
 );
@@ -58,7 +55,7 @@ const FooterLink = ({ href, children, external = false }) => (
     <a
       href={href}
       {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}
-      className="text-frost-200 hover:text-frost-50 transition-colors"
+      className="font-semibold text-parchment-200 hover:text-lantern-300 transition-colors"
     >
       {children}
     </a>

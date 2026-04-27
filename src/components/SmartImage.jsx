@@ -1,8 +1,5 @@
 import { useState } from 'react';
 
-// Photography-first image with palette gradient fallback + blur-up on load.
-// The gradient is rendered underneath every image so a slow load never shows
-// an empty black rectangle — the composition stays intentional.
 const SmartImage = ({
   src,
   alt = '',
@@ -14,8 +11,8 @@ const SmartImage = ({
 }) => {
   const [loaded, setLoaded] = useState(false);
   const [failed, setFailed] = useState(false);
-  const from = palette?.from || '#14161c';
-  const to   = palette?.to   || '#2a2e38';
+  const from = palette?.from || '#180e3c';
+  const to   = palette?.to   || '#0f0a24';
 
   return (
     <div

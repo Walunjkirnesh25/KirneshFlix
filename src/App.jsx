@@ -27,7 +27,7 @@ function App() {
       <Router>
         {showSplash && <SplashScreen onComplete={handleSplashDone} />}
         <CursorGlow />
-        <div className="relative min-h-screen min-h-[100svh] text-frost-50">
+        <div className="relative min-h-screen min-h-[100svh] text-parchment-50">
           <Navbar />
           <main className="relative z-[2]">
             <Routes>

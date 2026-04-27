@@ -4,7 +4,6 @@
 
 :root {
   color-scheme: dark;
-  --grain-opacity: 0.05;
 }
 
 html, body, #root {
@@ -15,91 +14,117 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  background-color: #0a0a0c;
+  background-color: #0f0a24;
 }
 
 body {
   margin: 0;
-  font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Inter, Helvetica, Arial, sans-serif;
-  color: #f5f5f7;
+  font-family: "Nunito Sans", "Nunito", system-ui, sans-serif;
+  color: #fffdf5;
   background:
-    radial-gradient(1200px 800px at 80% -10%, rgba(95,180,255,0.10), transparent 60%),
-    radial-gradient(900px 600px at -10% 110%, rgba(255,122,77,0.08), transparent 55%),
-    linear-gradient(180deg, #0a0a0c 0%, #0d0f14 60%, #0a0a0c 100%);
+    radial-gradient(ellipse 900px 600px at 70% -5%, rgba(255,209,102,0.09), transparent 55%),
+    radial-gradient(ellipse 700px 500px at -5% 80%, rgba(244,162,97,0.10), transparent 50%),
+    radial-gradient(ellipse 500px 400px at 95% 85%, rgba(72,202,228,0.06), transparent 50%),
+    linear-gradient(160deg, #0f0a24 0%, #14093a 50%, #0f0a24 100%);
   background-attachment: fixed;
 }
 
-/* Subtle film grain for a "living" surface */
+/* Star-field: tiny bright dots for Pixar night-sky depth */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
-  opacity: var(--grain-opacity);
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.9'/></svg>");
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  background-image:
+    radial-gradient(1px 1px at 15% 18%, rgba(255,244,217,0.7), transparent),
+    radial-gradient(1px 1px at 72% 8%,  rgba(255,244,217,0.5), transparent),
+    radial-gradient(1px 1px at 88% 34%, rgba(255,244,217,0.6), transparent),
+    radial-gradient(1px 1px at 33% 55%, rgba(255,244,217,0.4), transparent),
+    radial-gradient(1px 1px at 55% 72%, rgba(255,244,217,0.3), transparent),
+    radial-gradient(1.5px 1.5px at 8% 65%,  rgba(255,209,102,0.6), transparent),
+    radial-gradient(1.5px 1.5px at 92% 15%, rgba(255,209,102,0.5), transparent),
+    radial-gradient(1px 1px at 42% 88%, rgba(255,244,217,0.4), transparent),
+    radial-gradient(1px 1px at 78% 58%, rgba(72,202,228,0.4), transparent);
 }
 
-/* Refined, minimal scrollbar */
+/* Warm scrollbar */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255,209,102,0.12);
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.16); background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,209,102,0.22);
+  background-clip: padding-box;
+}
 
-::selection { background: rgba(95,180,255,0.35); color: #fff; }
+::selection { background: rgba(255,209,102,0.4); color: #080614; }
 
 .scrollbar-none::-webkit-scrollbar { display: none; }
 .scrollbar-none { scrollbar-width: none; }
 
+/* Warm amber glass — the Pixar lantern feel */
 .glass {
-  background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03));
-  border: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: saturate(160%) blur(20px);
-  -webkit-backdrop-filter: saturate(160%) blur(20px);
+  background: linear-gradient(160deg, rgba(255,244,217,0.08), rgba(255,209,102,0.03));
+  border: 1px solid rgba(255,209,102,0.12);
+  backdrop-filter: saturate(150%) blur(20px);
+  -webkit-backdrop-filter: saturate(150%) blur(20px);
 }
 .glass-strong {
-  background: rgba(18,20,26,0.72);
-  border: 1px solid rgba(255,255,255,0.08);
-  backdrop-filter: saturate(180%) blur(30px);
-  -webkit-backdrop-filter: saturate(180%) blur(30px);
+  background: rgba(15,10,36,0.78);
+  border: 1px solid rgba(255,209,102,0.14);
+  backdrop-filter: saturate(180%) blur(32px);
+  -webkit-backdrop-filter: saturate(180%) blur(32px);
 }
 
+/* Buttons — adventure-ready, bouncy */
 .btn-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.25rem;
+  padding: 0.8rem 1.5rem;
   border-radius: 999px;
-  font-weight: 500;
+  font-family: "Nunito", system-ui, sans-serif;
+  font-weight: 700;
   font-size: 0.95rem;
-  letter-spacing: -0.01em;
-  transition: transform 200ms cubic-bezier(0.22,1,0.36,1),
-              background 200ms ease, color 200ms ease, box-shadow 200ms ease;
+  letter-spacing: 0.01em;
+  transition: transform 220ms cubic-bezier(0.34, 1.56, 0.64, 1),
+              background 180ms ease, color 180ms ease, box-shadow 180ms ease;
   will-change: transform;
 }
-.btn-pill:active { transform: scale(0.97); }
+.btn-pill:active { transform: scale(0.95); }
 
 .btn-primary {
-  background: #f5f5f7;
-  color: #0a0a0c;
+  background: linear-gradient(135deg, #ffd166, #f4a261);
+  color: #080614;
+  box-shadow: 0 8px 24px rgba(255,209,102,0.35);
 }
-.btn-primary:hover { background: #ffffff; box-shadow: 0 10px 40px rgba(255,255,255,0.12); }
+.btn-primary:hover {
+  background: linear-gradient(135deg, #ffe08a, #f7b87a);
+  box-shadow: 0 12px 36px rgba(255,209,102,0.5);
+  transform: translateY(-2px) scale(1.02);
+}
 
 .btn-ghost {
-  background: rgba(255,255,255,0.08);
-  color: #f5f5f7;
-  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,209,102,0.08);
+  color: #fffdf5;
+  border: 1.5px solid rgba(255,209,102,0.22);
 }
-.btn-ghost:hover { background: rgba(255,255,255,0.14); }
+.btn-ghost:hover {
+  background: rgba(255,209,102,0.16);
+  border-color: rgba(255,209,102,0.4);
+  transform: translateY(-1px);
+}
 
 .tabular { font-variant-numeric: tabular-nums; }
 
+/* Blur-up image loading */
 .img-blur-up {
   filter: blur(18px);
   transform: scale(1.04);
@@ -110,27 +135,31 @@ body::before {
   transform: scale(1);
 }
 
+/* Horizontal snap row */
 .snap-row {
   scroll-snap-type: x mandatory;
   scroll-padding-left: 2rem;
 }
 .snap-row > * { scroll-snap-align: start; }
 
+/* Warm divider */
 .hairline {
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,209,102,0.18), transparent);
 }
 
+/* Display / heading class — Nunito, round and bold */
 .display {
-  font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Inter, sans-serif;
-  letter-spacing: -0.035em;
-  font-weight: 600;
+  font-family: "Nunito", system-ui, sans-serif;
+  letter-spacing: -0.02em;
+  font-weight: 800;
 }
 
+/* Warm amber focus ring */
 *:focus-visible {
-  outline: 2px solid rgba(158,200,255,0.8);
+  outline: 2px solid rgba(255,209,102,0.8);
   outline-offset: 3px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,14 +1,12 @@
 import { useEffect, useRef } from 'react';
 import { animate, createTimeline, createDrawable, stagger } from 'animejs';
 
-// The mountain peak draws itself every time the nav mounts, then the wordmark
-// text characters fade in with a brief stagger. Keeps the entry feel alive
-// across page navigations.
 const Wordmark = ({ size = 'md', className = '' }) => {
   const pathRef  = useRef(null);
+  const starRef  = useRef(null);
   const textRef  = useRef(null);
-  const dim  = size === 'lg' ? 28 : size === 'sm' ? 16 : 20;
-  const text = size === 'lg' ? 'text-2xl' : size === 'sm' ? 'text-sm' : 'text-base';
+  const dim  = size === 'lg' ? 30 : size === 'sm' ? 18 : 22;
+  const text = size === 'lg' ? 'text-2xl' : size === 'sm' ? 'text-sm' : 'text-[17px]';
 
   useEffect(() => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -19,19 +17,19 @@ const Wordmark = ({ size = 'md', className = '' }) => {
 
     const tl = createTimeline({ defaults: { ease: 'out(3)' } });
 
-    tl.add(drawable, {
-      draw:     ['0 0', '0 1'],
-      duration: 650,
-      ease:     'out(2)',
-    });
+    tl.add(drawable, { draw: ['0 0', '0 1'], duration: 750, ease: 'out(2)' });
+
+    if (starRef.current) {
+      tl.add(starRef.current, {
+        scale: [0, 1], opacity: [0, 1], duration: 400, ease: 'spring(1, 80, 12, 0)',
+      }, '-=200');
+    }
 
     if (chars?.length) {
       tl.add(chars, {
-        opacity:  [0, 1],
-        y:        ['30%', '0%'],
-        duration: 400,
-        delay:    stagger(22),
-      }, '-=300');
+        opacity: [0, 1], y: ['40%', '0%'], duration: 500,
+        ease: 'spring(1, 80, 12, 0)', delay: stagger(24),
+      }, '-=350');
     }
 
     return () => tl.revert?.();
@@ -40,27 +38,32 @@ const Wordmark = ({ size = 'md', className = '' }) => {
   const letters = 'Kirneshflix'.split('');
 
   return (
-    <div className={`inline-flex items-center gap-2 ${className}`}>
+    <div className={`inline-flex items-center gap-2.5 ${className}`}>
       <svg width={dim} height={dim} viewBox="0 0 32 32" fill="none" aria-hidden>
         <defs>
           <linearGradient id="peak-grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#f5f5f7" />
-            <stop offset="100%" stopColor="#9ec8ff" />
+            <stop offset="0%" stopColor="#ffd166" />
+            <stop offset="100%" stopColor="#f4a261" />
           </linearGradient>
+          <filter id="peak-glow">
+            <feGaussianBlur stdDeviation="1" result="blur" />
+            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
         </defs>
         <path
           ref={pathRef}
           d="M3 25 L12 11 L17 18 L21 13 L29 25 Z"
           stroke="url(#peak-grad)"
-          strokeWidth="1.8"
+          strokeWidth="2"
           fill="none"
           strokeLinejoin="round"
           strokeLinecap="round"
+          filter="url(#peak-glow)"
         />
-        <circle cx="22" cy="7.5" r="1.6" fill="#f5f5f7" opacity="0.9" />
+        <circle ref={starRef} cx="22" cy="6.5" r="1.8" fill="#ffd166" opacity="0.95" style={{ transformOrigin: '22px 6.5px' }} />
       </svg>
 
-      <span ref={textRef} className={`display ${text} text-frost-50 flex`} aria-label="Kirneshflix">
+      <span ref={textRef} className={`display ${text} text-parchment-50 flex`} aria-label="Kirneshflix">
         {letters.map((l, i) => (
           <span key={i} className="wm-char" style={{ opacity: 0 }}>{l}</span>
         ))}

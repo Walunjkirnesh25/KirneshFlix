@@ -1,8 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { animate } from 'animejs';
 
-// A soft radial alpine-blue glow that follows the cursor across the whole
-// page. Pure CSS pointer-events:none so it never interferes with clicks.
 const CursorGlow = () => {
   const ref = useRef(null);
 
@@ -48,7 +46,7 @@ const CursorGlow = () => {
         width:           '520px',
         height:          '520px',
         borderRadius:    '50%',
-        background:      'radial-gradient(circle, rgba(95,180,255,0.10) 0%, transparent 70%)',
+        background:      'radial-gradient(circle, rgba(255,209,102,0.10) 0%, rgba(244,162,97,0.05) 40%, transparent 70%)',
         transform:       'translate(-50%, -50%)',
         pointerEvents:   'none',
         zIndex:          0,
